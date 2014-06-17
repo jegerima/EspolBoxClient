@@ -14,16 +14,17 @@ class ClientSocket : public QObject
     Q_OBJECT
 public:
     ClientSocket(QObject *parent, QString ipdir, QString macdir);
-    void doConnect();
+    ~ClientSocket();
     void SendString(char *s);
 
 signals:
 
 public slots:
+    void doConnect();
     void connected();
     void disconnected();
-    void bytesWritten(qint64 bytes);
     void readyRead();
+    void displayError(QAbstractSocket::SocketError scktError);
 
 private:
     QTcpSocket *sckt;

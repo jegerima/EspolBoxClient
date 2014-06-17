@@ -4,8 +4,8 @@
 
 textparser::textparser(QString txt)
 {
-    cs = new ClientSocket(0,QString("127.0.0.1"),QString("Vacila la mac"));
-    cs->doConnect();
+    cs = new ClientSocket(0,QString("192.168.1.6"),QString("Vacila la mac"));
+
 }
 
 int textparser::parse(QString txt)
@@ -47,6 +47,8 @@ int textparser::firstParam(QString txt)
 
         file f;
         f.newDirectory(cuser);
+
+        cs->SendString("Crear usuario");
         //cs->bytesWritten();
         return 1;
     }

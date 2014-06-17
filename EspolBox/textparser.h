@@ -1,9 +1,11 @@
 #ifndef TEXTPARSER_H
 #define TEXTPARSER_H
 
+
 #include <QString>
 #include <QRegularExpression>
 #include <clientsocket.h>
+#include <QThread>
 
 class textparser
 {
@@ -15,6 +17,7 @@ public:
 
 private:
     ClientSocket *cs;
+    QThread *hilo;
 };
 
 #endif // TEXTPARSER_H
