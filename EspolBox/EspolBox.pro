@@ -17,13 +17,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    file.cpp \
-    textparser.cpp \
     libs.cpp \
-    clientsocket.cpp
+    clientsocket.cpp \
+    file.cpp \
+    textparser.cpp
 
 HEADERS += \
-    file.h \
-    textparser.h \
     libs.h \
-    clientsocket.h
+    clientsocket.h \
+    file.h
+    textparser.h

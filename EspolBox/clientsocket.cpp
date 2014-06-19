@@ -50,7 +50,7 @@ void ClientSocket::doConnect()
 
     //Llamando al server
     qDebug() << "IP: " << this->ip;
-    sckt->connectToHost("192.168.1.6",1023);
+    sckt->connectToHost("127.0.0.1",1023);
 
     //Esperando la respuesta
 
@@ -74,9 +74,9 @@ void ClientSocket::readyRead()
     qDebug() << sckt->readAll();
 }
 
-void ClientSocket::SendString(char *s)
+void ClientSocket::SendString(QString qs)
 {
-    sckt->write(s);
+    sckt->write(QStringToChar(qs));
 }
 
 void ClientSocket::displayError(QAbstractSocket::SocketError scktError)

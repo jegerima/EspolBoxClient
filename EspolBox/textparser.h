@@ -3,9 +3,13 @@
 
 
 #include <QString>
+#include <QStringList>
 #include <QRegularExpression>
 #include <clientsocket.h>
 #include <QThread>
+#include <QList>
+#include <file.h>
+#include <QDir>
 
 class textparser
 {
@@ -15,9 +19,14 @@ public:
     int firstParam(QString txt);
     int secondParam(QString txt);
 
+
 private:
     ClientSocket *cs;
     QThread *hilo;
+    QDir *currentDir;
+    QList<file> *currentFiles;
 };
+
+void getOnlyFiles(QStringList lista);
 
 #endif // TEXTPARSER_H

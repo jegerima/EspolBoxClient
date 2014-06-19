@@ -2,16 +2,29 @@
 #define FILE_H
 
 #include <QObject>
+#include <QString>
+#include <QFile>
+#include <QByteArray>
+#include <QCryptographicHash>
 
-class file : public QObject
+class file : public QFile
 {
     Q_OBJECT
 public:
-    explicit file(QObject *parent = 0);
+    //explicit file(QObject *parent = 0);
+    file(QString name);
+
+    QString getHash();
+    QString calculateHash();
+    bool openFile();
 
 signals:
 
 public slots:
+
+private:
+    QString userName;
+    QString hash;
 
 };
 

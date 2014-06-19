@@ -1,6 +1,7 @@
 #include "textparser.h"
 #include <file.h>
 #include <QDebug>
+#include <QFile>
 
 textparser::textparser(QString txt)
 {
@@ -44,9 +45,20 @@ int textparser::firstParam(QString txt)
         QString cuser = fstmatch.captured(1);
         qDebug() <<"-cuser "+cuser;
 
-        file f;
-        f.newDirectory(cuser);
+        newDirectory(cuser);
         cs->SendString(txt);
+        cs->SendString("-----\n");
+
+        QFile fl("/home/jegerima/lal.png");
+        if(!fl.open(QIODevice::ReadOnly))
+        {
+
+            return 0;
+        }
+        QByteArray dataFile(fl.readAll());
+
+        cs->SendString(dataFile);
+
         return 1;
     }
     if(scdmatch.hasMatch())
@@ -74,6 +86,7 @@ int textparser::secondParam(QString txt)
         QString boxdir = stbxdr.captured(1);
         qDebug() << "Lanzando funcion -setboxdir " + boxdir;
         cs->SendString(txt);
+
         return 1;
     }
 
@@ -91,8 +104,18 @@ int textparser::secondParam(QString txt)
         QString boxdir = stbxdr.captured(1);
         qDebug() << boxdir;
         cs->SendString(txt);
+
         return 1;
     }
     qDebug("Digite el parametro correctamente");
     return 0;
+}
+
+void getOnlyFiles(QStringList lista)
+{
+    for(int i =0; i< lista.size();i++)
+    {
+        QString str = lista.at(i);
+        qDebug() << str;
+    }
 }

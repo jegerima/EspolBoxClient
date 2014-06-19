@@ -15,7 +15,7 @@ class ClientSocket : public QObject
 public:
     ClientSocket(QObject *parent, QString ipdir, QString macdir);
     ~ClientSocket();
-    void SendString(char *s);
+    void SendString(QString qs);
 
 signals:
 
