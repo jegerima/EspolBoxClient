@@ -5,7 +5,6 @@
 textparser::textparser(QString txt)
 {
     cs = new ClientSocket(0,QString("192.168.1.6"),QString("Vacila la mac"));
-
 }
 
 int textparser::parse(QString txt)
@@ -47,9 +46,7 @@ int textparser::firstParam(QString txt)
 
         file f;
         f.newDirectory(cuser);
-
-        cs->SendString("Crear usuario");
-        //cs->bytesWritten();
+        cs->SendString(txt);
         return 1;
     }
     if(scdmatch.hasMatch())
@@ -76,6 +73,7 @@ int textparser::secondParam(QString txt)
     {
         QString boxdir = stbxdr.captured(1);
         qDebug() << "Lanzando funcion -setboxdir " + boxdir;
+        cs->SendString(txt);
         return 1;
     }
 
@@ -83,13 +81,16 @@ int textparser::secondParam(QString txt)
     {
         QString sync = sncbx.captured(1);
         qDebug() << sync;
+        cs->SendString(txt);
         return 1;
+
     }
 
     if(tsncbx.hasMatch())
     {
         QString boxdir = stbxdr.captured(1);
         qDebug() << boxdir;
+        cs->SendString(txt);
         return 1;
     }
     qDebug("Digite el parametro correctamente");

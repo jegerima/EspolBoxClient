@@ -1,32 +1,18 @@
 #ifndef FILE_H
 #define FILE_H
 
-#include <libs.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <QObject>
 
-#include <QString>
-#include <QDateTime>
-
-class file
+class file : public QObject
 {
-   // Q_OBJECT
-
+    Q_OBJECT
 public:
-    file();
-    int newDirectory(QString str);
-    //Procedimientos
-    //Funciones
+    explicit file(QObject *parent = 0);
+
 signals:
 
-private slots:
+public slots:
 
-private:
-    QString name;
-    QDateTime date;
-    int fileSize;
 };
 
 #endif // FILE_H
