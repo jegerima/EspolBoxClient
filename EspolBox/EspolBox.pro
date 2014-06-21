@@ -25,5 +25,6 @@ SOURCES += main.cpp \
 HEADERS += \
     libs.h \
     clientsocket.h \
-    file.h
+    file.h \
+    textparser.h
     textparser.h

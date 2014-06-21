@@ -17,7 +17,7 @@ public:
     textparser(QString txt);
     int parse(QString txt);
     int firstParam(QString txt);
-    int secondParam(QString txt);
+    int secondParam(QString txt, QString usr);
 
 
 private:
@@ -28,5 +28,6 @@ private:
 };
 
 void getOnlyFiles(QStringList lista);
+QList<QByteArray> getFilesInByteArrayList(QStringList ListFiles);
 
 #endif // TEXTPARSER_H

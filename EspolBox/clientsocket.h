@@ -6,6 +6,7 @@
 #include <QtNetwork/QAbstractSocket>
 #include <QDebug>
 #include <QString>
+#include <QByteArray>
 
 #include <libs.h>
 
@@ -15,7 +16,8 @@ class ClientSocket : public QObject
 public:
     ClientSocket(QObject *parent, QString ipdir, QString macdir);
     ~ClientSocket();
-    void SendString(QString qs);
+    void SendQString(QString qs);
+    void SendQByteArray(QByteArray ba);
 
 signals:
 
@@ -30,6 +32,7 @@ private:
     QTcpSocket *sckt;
     QString ip;
     QString mac;
+    int ID;
 };
 
 #endif // CLIENTSOCKET_H

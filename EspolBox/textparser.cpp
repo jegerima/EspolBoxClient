@@ -46,64 +46,79 @@ int textparser::firstParam(QString txt)
         qDebug() <<"-cuser "+cuser;
 
         newDirectory(cuser);
-        cs->SendString(txt);
-        cs->SendString("-----\n");
-
-        QFile fl("/home/jegerima/lal.png");
-        if(!fl.open(QIODevice::ReadOnly))
-        {
-
-            return 0;
-        }
-        QByteArray dataFile(fl.readAll());
-
-        cs->SendString(dataFile);
-
+        cs->SendQString("cuser "+cuser);
         return 1;
     }
     if(scdmatch.hasMatch())
     {
         QString user = scdmatch.captured(1);
         qDebug() << user;
-        return secondParam(txt);
+        return secondParam(txt,user);
     }
     qDebug("Digite el parametro correctamente");
     return 0;
 
 }
 
-int textparser::secondParam(QString txt)
+int textparser::secondParam(QString txt, QString usr)
 {
-    QRegularExpression setboxdir(".* -setboxdir (\\w+)");
-    QRegularExpression syncbox(".* -syncbox (\\w+)");
+    QRegularExpression setboxdir(".* -setboxdir .*");
+    QRegularExpression syncbox(".* -syncbox");
     QRegularExpression autosynbox(".* -autosyncbox (\\w+)");
     QRegularExpressionMatch stbxdr = setboxdir.match(txt);
     QRegularExpressionMatch sncbx = syncbox.match(txt);
     QRegularExpressionMatch tsncbx = autosynbox.match(txt);
 
-    if(stbxdr.hasMatch())
-    {
-        QString boxdir = stbxdr.captured(1);
-        qDebug() << "Lanzando funcion -setboxdir " + boxdir;
-        cs->SendString(txt);
+    QStringList lst = txt.split(" ");
 
-        return 1;
+    if(stbxdr.hasMatch()) // SETBOXDIR
+    {
+        //QString boxdir = stbxdr.captured(1);
+        if(PathExists(lst.at(4))==0)
+        {
+            qDebug() << "Lanzando funcion -setboxdir " + lst.at(4);
+
+            setCURRENT_DIR(lst.at(4));
+            setCURRENT_USER(usr);
+            cs->SendQString("setboxdir "+usr+" "+getRELATIVE_DIR());
+            return 1;
+        }
+        else
+        {
+            qDebug() << "Ruta invalida";
+            return 0;
+        }
+        return 0;
     }
 
-    if(sncbx.hasMatch())
+    if(sncbx.hasMatch()) //SYNCBOX
     {
         QString sync = sncbx.captured(1);
-        qDebug() << sync;
-        cs->SendString(txt);
-        return 1;
+        qDebug() << "Sincronizando " + getCURRENT_DIR();
+        QStringList FilesList = getDirectoryFiles(getCURRENT_DIR());
+        qDebug() << "Archivos:";
+        qDebug() << FilesList;
+        QStringList DirsList = getDirectoryDirs(getCURRENT_DIR());
+        qDebug() << "Directorios:";
+        qDebug() << DirsList;
 
+
+        cs->SendQString("sync "+usr+" "+getRELATIVE_DIR());
+        QList<QByteArray> baList = getFilesInByteArrayList(FilesList);
+        for(int x = 0; x<baList.size(); x++)
+        {
+            cs->SendQByteArray(baList.at(x));
+        }
+        cs->SendQString("syncDONE syncDONE");
+        cs->SendQString("syncDONE syncDONE");
+        return 1;
     }
 
-    if(tsncbx.hasMatch())
+    if(tsncbx.hasMatch()) //AUTOSYNCBOX
     {
         QString boxdir = stbxdr.captured(1);
         qDebug() << boxdir;
-        cs->SendString(txt);
+        cs->SendQString("autosyncbox " + usr);
 
         return 1;
     }

@@ -28,15 +28,11 @@ ClientSocket::~ClientSocket()
 void ClientSocket::connected()
 {
     qDebug() << "Conectado!";
-
-    // Hey server, tell me about you.
-    sckt->write("Funciona Carajo!");
-    qDebug() << "Mensajes enviados.";
 }
 
 void ClientSocket::disconnected()
 {
-     qDebug() << "disconnected...";
+     qDebug() << "Desconectado";
 }
 
 void ClientSocket::doConnect()
@@ -46,7 +42,7 @@ void ClientSocket::doConnect()
     connect(sckt,SIGNAL(readyRead()),this, SLOT(readyRead()));
     //connect(sckt,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(displayError(QAbstractSocket::SocketError)));
 
-    qDebug() << "Connecting...";
+    qDebug() << "Conectando...";
 
     //Llamando al server
     qDebug() << "IP: " << this->ip;
@@ -59,24 +55,28 @@ void ClientSocket::doConnect()
         qDebug() << "Error: " << sckt->errorString();
         return;
     }
-
-    printf("doConnect()... DONE;\n");
+    /*
     qDebug() << sckt->isValid();
     qDebug() << sckt->isOpen();
     qDebug() << sckt->isReadable();
     qDebug() << sckt->isWritable();
+    */
 }
 
 void ClientSocket::readyRead()
 {
-    qDebug() << "Reading...";
     // read the data from the socket
-    qDebug() << sckt->readAll();
+    qDebug() << "Server: " + sckt->readAll();
 }
 
-void ClientSocket::SendString(QString qs)
+void ClientSocket::SendQString(QString qs)
 {
     sckt->write(QStringToChar(qs));
+}
+
+void ClientSocket::SendQByteArray(QByteArray ba)
+{
+    sckt->write(ba);
 }
 
 void ClientSocket::displayError(QAbstractSocket::SocketError scktError)

@@ -7,11 +7,9 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    /*
-    QString aa("Hola");
-    qDebug() << aa;
-    char *hh = QStringToChar(aa);
-    printf("%s\n",hh);
+    qDebug() << PathExists("/home/jegerima/aa.txt");
+
+    setCURRENT_DIR("/home/jegerima/Descargas");
 
     textparser z("");
     int j = 0;
@@ -30,10 +28,12 @@ int main(int argc, char *argv[])
 
  //   return a.exec();
 
-    //BUSCAR iNotify*/
+    //BUSCAR iNotify
 
+    /*
     qDebug() << getDirectoryFiles("Descargas");
     qDebug("-----------------");
     //textparser f("hola");
     getOnlyFiles(getDirectoryFiles("Descargas"));
+    */
 }
