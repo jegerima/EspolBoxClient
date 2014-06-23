@@ -15,7 +15,8 @@ public:
     file(QString name);
 
     QString getHash();
-    QString calculateHash();
+    QString calculateHash(QByteArray ba);
+    void setPath(QString dir);
     bool openFile();
 
 signals:
@@ -23,6 +24,8 @@ signals:
 public slots:
 
 private:
+    QString name;
+    QString path;
     QString userName;
     QString hash;
 

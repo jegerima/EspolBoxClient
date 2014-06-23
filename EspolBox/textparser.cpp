@@ -1,5 +1,4 @@
 #include "textparser.h"
-#include <file.h>
 #include <QDebug>
 #include <QFile>
 
@@ -102,15 +101,15 @@ int textparser::secondParam(QString txt, QString usr)
         qDebug() << "Directorios:";
         qDebug() << DirsList;
 
-
-        cs->SendQString("sync "+usr+" "+getRELATIVE_DIR());
+        cs->SendQString("sync#"+usr+"#"+getRELATIVE_DIR());
         QList<QByteArray> baList = getFilesInByteArrayList(FilesList);
         for(int x = 0; x<baList.size(); x++)
         {
             cs->SendQByteArray(baList.at(x));
+            QThread::msleep(500);
         }
-        cs->SendQString("syncDONE syncDONE");
-        cs->SendQString("syncDONE syncDONE");
+        cs->SendQString("syncDONE#syncDONE");
+        cs->SendQString("syncDONE#syncDONE");
         return 1;
     }
 

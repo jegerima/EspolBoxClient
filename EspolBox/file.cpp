@@ -5,9 +5,8 @@ file::file(QString name) :QFile(name)
 
 }
 
-QString file::calculateHash()
+QString file::calculateHash(QByteArray ba)
 {
-    QByteArray ba = this->readAll();
     this->hash = QString(QCryptographicHash::hash(ba,QCryptographicHash::Md5));
     return this->hash;
 }
@@ -20,4 +19,9 @@ bool file::openFile()
 QString file::getHash()
 {
     return this->hash;
+}
+
+void file::setPath(QString dir)
+{
+    this->path = dir;
 }

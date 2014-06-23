@@ -2,6 +2,7 @@
 #define LIBS_H
 
 #include <QDir>
+#include <QHash>
 #include <QList>
 #include <QFile>
 #include <QDebug>
@@ -13,6 +14,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <file.h>
 #include <stdlib.h>
 
 char *QStringToChar(QString str);
@@ -24,11 +26,11 @@ QFile getQFile(QString fl, QString pth);
 QString getCURRENT_DIR();
 QString getCURRENT_USER();
 QString getRELATIVE_DIR();
+QString calculateHash(QByteArray ba);
 QList<QByteArray> getFilesInByteArrayList(QStringList ListFiles);
 QStringList getDirectoryDirs(QString dir);
 QStringList getDirectoryFiles(QString dir);
 QFileInfoList getDirectoryInfoFiles(QString dir);
 QByteArray QFileToByteArray(QFile fl);
-
 
 #endif // LIBS_H

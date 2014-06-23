@@ -1,8 +1,8 @@
 #ifndef TEXTPARSER_H
 #define TEXTPARSER_H
 
-
 #include <QString>
+#include <QDataStream>
 #include <QStringList>
 #include <QRegularExpression>
 #include <clientsocket.h>
@@ -19,12 +19,11 @@ public:
     int firstParam(QString txt);
     int secondParam(QString txt, QString usr);
 
-
 private:
     ClientSocket *cs;
     QThread *hilo;
     QDir *currentDir;
-    QList<file> *currentFiles;
+    //QList<file> *currentFiles;
 };
 
 void getOnlyFiles(QStringList lista);

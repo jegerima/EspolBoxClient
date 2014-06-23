@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "ebfile.h"
 
 QString CURRENT_DIR;
 QString RELATIVE_DIR;
@@ -142,14 +143,34 @@ QList<QByteArray> getFilesInByteArrayList(QStringList ListFiles)
     int i = 0;
     for(i=0; i<ListFiles.size(); i++)
     {
-        QString fullFileDir(getCURRENT_DIR() + "/" + ListFiles.at(i));
-        qDebug() << fullFileDir;
+        qDebug() << "Archivo "+ getCURRENT_DIR()+"/"+ListFiles.at(i);
         QFile f(getCURRENT_DIR() + "/" + ListFiles.at(i));
         f.open(QIODevice::ReadOnly);
-        QByteArray ba = f.readAll();
+
+        //f.setFileName(ListFiles.at(i));
+/*
+        QHash<QString,QString> FileProp;
+        FileProp["NAME"] = ListFiles.at(i);
+        FileProp["RELATIVEDIR"] = getRELATIVE_DIR();
+        //FileProp["HASH"] = calculateHash(ba);
+
+        //QDataStream out(&f);
+        //out << FileProp;
+*/
+        QByteArray b = ListFiles.at(i).toLatin1() + "#" + getRELATIVE_DIR().toLatin1() + "#";
+        QByteArray ba = b+f.readAll();
+
         BytesList.append(ba);
+
+        f.close();
         //f->
     }
     return BytesList;
+}
+
+QString calculateHash(QByteArray ba)
+{
+    QString hash(QCryptographicHash::hash(ba,QCryptographicHash::Md5));
+    return hash;
 }
 

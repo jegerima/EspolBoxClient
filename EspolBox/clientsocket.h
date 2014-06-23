@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QAbstractSocket>
+#include <QJsonObject>
 #include <QDebug>
 #include <QString>
 #include <QByteArray>
