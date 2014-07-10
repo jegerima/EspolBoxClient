@@ -6,8 +6,10 @@
 ClientSocket::ClientSocket(QObject *parent, QString ipdir, QString macdir) :
     QObject(parent)
 {
+    lock();
     this->ip = ipdir;
     this->mac = macdir;
+    this->online = false;
     sckt = new QTcpSocket(this);
 
     QThread *hilo = new QThread(0);
@@ -28,31 +30,34 @@ ClientSocket::~ClientSocket()
 void ClientSocket::connected()
 {
     qDebug() << "Conectado!";
+    this->online = true;
 }
 
 void ClientSocket::disconnected()
 {
      qDebug() << "Desconectado";
+     this->online = false;
 }
 
 void ClientSocket::doConnect()
 {
     connect(sckt,SIGNAL(connected()),this, SLOT(connected()));
     connect(sckt,SIGNAL(disconnected()),this, SLOT(disconnected()));
-    connect(sckt,SIGNAL(readyRead()),this, SLOT(readyRead()));
+    connect(sckt,SIGNAL(readyRead()),this, SLOT(dataReceived()));
     //connect(sckt,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(displayError(QAbstractSocket::SocketError)));
 
     qDebug() << "Conectando...";
 
     //Llamando al server
     qDebug() << "IP: " << this->ip;
-    sckt->connectToHost("127.0.0.1",1022);
+    sckt->connectToHost("127.0.0.1",1042);
 
     //Esperando la respuesta
 
     if(!sckt->waitForConnected(3000))//ms
     {
         qDebug() << "Error: " << sckt->errorString();
+        unlock();
         return;
     }
     /*
@@ -66,7 +71,14 @@ void ClientSocket::doConnect()
 void ClientSocket::readyRead()
 {
     // read the data from the socket
-    qDebug() << "Server: " + sckt->readAll();
+
+}
+
+void ClientSocket::dataReceived()
+{
+    QString data(sckt->readAll());
+    qDebug() << "Server: " + data;
+    emit DataArrived(data);
 }
 
 void ClientSocket::SendQString(QString qs)
@@ -93,4 +105,9 @@ void ClientSocket::displayError(QAbstractSocket::SocketError scktError)
          default:
              qDebug() << ("The following error occurred: 0");
          }
+}
+
+bool ClientSocket::getStatus()
+{
+    return this->online;
 }

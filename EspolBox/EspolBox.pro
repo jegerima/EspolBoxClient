@@ -20,13 +20,14 @@ SOURCES += main.cpp \
     libs.cpp \
     clientsocket.cpp \
     file.cpp \
-    textparser.cpp \
-    ebfile.cpp
+    ebfile.cpp \
+    parser.cpp \
+    listener.cpp
 
 HEADERS += \
     libs.h \
     clientsocket.h \
     file.h \
-    textparser.h \
-    ebfile.h
-    textparser.h
+    ebfile.h \
+    parser.h \
+    listener.h

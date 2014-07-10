@@ -5,6 +5,11 @@ QString CURRENT_DIR;
 QString RELATIVE_DIR;
 QString CURRENT_USER;
 
+QStringList DirsListWatcher;
+QStringList FilesListWatcher;
+
+bool block;
+
 char *QStringToChar(QString str)
 {
     QByteArray ba = str.toLatin1();
@@ -12,6 +17,20 @@ char *QStringToChar(QString str)
     return c;
 }
 
+void lock()
+{
+    block = true;
+}
+
+void unlock()
+{
+    block = false;
+}
+
+bool getLock()
+{
+    return block;
+}
 /*
  * Devuelve -1 si la ruta no existe
  * Caso contrario devuelve 0
@@ -77,8 +96,6 @@ QStringList getDirectoryDirs(QString dir)
 
 QFileInfoList getDirectoryInfoFiles(QString dir)
 {
-    //QString homePath = getenv("HOME");
-    //QDir dirFiles(homePath + "/" +dir);
     QDir dirFiles(dir);
     QFileInfoList allFiles = dirFiles.entryInfoList(QDir::NoDotAndDotDot |
                                                   QDir::System |
@@ -143,27 +160,16 @@ QList<QByteArray> getFilesInByteArrayList(QStringList ListFiles)
     int i = 0;
     for(i=0; i<ListFiles.size(); i++)
     {
-        qDebug() << "Archivo "+ getCURRENT_DIR()+"/"+ListFiles.at(i);
-        QFile f(getCURRENT_DIR() + "/" + ListFiles.at(i));
+        QString FileFullPath(getCURRENT_DIR()+"/"+ListFiles.at(i));
+        addFileToWatch(FileFullPath);
+        qDebug() << "Archivo "+ FileFullPath;
+        QFile f(FileFullPath);
         f.open(QIODevice::ReadOnly);
 
-        //f.setFileName(ListFiles.at(i));
-/*
-        QHash<QString,QString> FileProp;
-        FileProp["NAME"] = ListFiles.at(i);
-        FileProp["RELATIVEDIR"] = getRELATIVE_DIR();
-        //FileProp["HASH"] = calculateHash(ba);
-
-        //QDataStream out(&f);
-        //out << FileProp;
-*/
-        QByteArray b = ListFiles.at(i).toLatin1() + "#" + getRELATIVE_DIR().toLatin1() + "#";
-        QByteArray ba = b+f.readAll();
-
+        QByteArray ba = getCURRENT_USER().toLatin1()+ "%" + getRELATIVE_DIR().toLatin1() + "%" + ListFiles.at(i).toLatin1() + "%"+f.readAll();
         BytesList.append(ba);
 
         f.close();
-        //f->
     }
     return BytesList;
 }
@@ -174,3 +180,22 @@ QString calculateHash(QByteArray ba)
     return hash;
 }
 
+void addDirToWatch(QString dir)
+{
+    DirsListWatcher.append(dir);
+}
+
+void addFileToWatch(QString file)
+{
+    FilesListWatcher.append(file);
+}
+
+QStringList getDirsListWatcher()
+{
+    return DirsListWatcher;
+}
+
+QStringList getFilesListWatcher()
+{
+    return FilesListWatcher;
+}

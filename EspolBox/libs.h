@@ -6,6 +6,7 @@
 #include <QList>
 #include <QFile>
 #include <QDebug>
+#include <QThread>
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
@@ -22,6 +23,10 @@ int PathExists(QString str);
 int newDirectory(QString str);
 void setCURRENT_DIR(QString dir);
 void setCURRENT_USER(QString usr);
+void lock();
+void unlock();
+bool getLock();
+
 QFile getQFile(QString fl, QString pth);
 QString getCURRENT_DIR();
 QString getCURRENT_USER();
@@ -32,5 +37,10 @@ QStringList getDirectoryDirs(QString dir);
 QStringList getDirectoryFiles(QString dir);
 QFileInfoList getDirectoryInfoFiles(QString dir);
 QByteArray QFileToByteArray(QFile fl);
+
+void addDirToWatch(QString dir);
+void addFileToWatch(QString file);
+QStringList getDirsListWatcher();
+QStringList getFilesListWatcher();
 
 #endif // LIBS_H

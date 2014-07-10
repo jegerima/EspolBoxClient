@@ -19,8 +19,10 @@ public:
     ~ClientSocket();
     void SendQString(QString qs);
     void SendQByteArray(QByteArray ba);
+    bool getStatus();
 
 signals:
+    void DataArrived(QString str);
 
 public slots:
     void doConnect();
@@ -28,8 +30,10 @@ public slots:
     void disconnected();
     void readyRead();
     void displayError(QAbstractSocket::SocketError scktError);
+    void dataReceived();
 
 private:
+    bool online;
     QTcpSocket *sckt;
     QString ip;
     QString mac;

@@ -1,7 +1,8 @@
 #include <QCoreApplication>
 #include <stdio.h>
 #include <QRegularExpression>
-#include <textparser.h>
+//#include <textparser.h>
+#include <parser.h>
 
 int main(int argc, char *argv[])
 {
@@ -10,11 +11,13 @@ int main(int argc, char *argv[])
     qDebug() << PathExists("/home/jegerima/aa.txt");
 
     setCURRENT_DIR("/home/jegerima/Descargas");
+    unlock();
+    Parser z(0);
 
-    textparser z("");
     int j = 0;
     while(j!=-1)
     {
+        while(getLock()){}
         printf("EspolBox$: ");
         char m[60];
         gets(m);
@@ -30,10 +33,4 @@ int main(int argc, char *argv[])
 
     //BUSCAR iNotify
 
-    /*
-    qDebug() << getDirectoryFiles("Descargas");
-    qDebug("-----------------");
-    //textparser f("hola");
-    getOnlyFiles(getDirectoryFiles("Descargas"));
-    */
 }
