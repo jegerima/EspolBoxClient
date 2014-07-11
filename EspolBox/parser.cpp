@@ -1,9 +1,9 @@
 #include "parser.h"
 
-Parser::Parser(QObject *parent) :
-    QObject(parent)
+Parser::Parser(QObject *parent) : QObject(parent)
 {
-    cs = new ClientSocket(0,QString("192.168.1.6"),QString("Vacila la mac"));
+    this->ip = new QString("127.0.0.1");
+    cs = new ClientSocket(0,QString(*(this->ip)),QString("mac"));
     connect(cs,SIGNAL(DataArrived(QString)),this,SLOT(serverParse(QString)));
 
     QThread *hilo = new QThread(0);
@@ -19,7 +19,7 @@ int Parser::parse(QString txt)
     //Si no hay conexion y desea reconectar
     if(txt== "reconnect" && !cs->getStatus())
     {
-        cs = new ClientSocket(0,QString("192.168.1.6"),QString("Vacila la mac"));
+        cs = new ClientSocket(0,QString(*(this->ip)),QString("Vacila la mac"));
         connect(cs,SIGNAL(DataArrived(QString)),this,SLOT(serverParse(QString)));
         return 0;
     }

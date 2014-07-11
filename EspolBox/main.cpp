@@ -8,9 +8,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    qDebug() << PathExists("/home/jegerima/aa.txt");
-
-    setCURRENT_DIR("/home/jegerima/Descargas");
+    setCURRENT_DIR(getenv("HOME"));
     unlock();
     Parser z(0);
 

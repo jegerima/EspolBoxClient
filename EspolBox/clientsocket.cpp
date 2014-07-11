@@ -50,7 +50,7 @@ void ClientSocket::doConnect()
 
     //Llamando al server
     qDebug() << "IP: " << this->ip;
-    sckt->connectToHost("127.0.0.1",1042);
+    sckt->connectToHost(this->ip,1042);
 
     //Esperando la respuesta
 

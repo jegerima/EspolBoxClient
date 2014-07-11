@@ -18,7 +18,11 @@ public:
 
 public slots:
     void showDirModifies(QString data);
+    void showDirFilesModifies(QString data);
     void showFileModifies(QString data);
+
+signals:
+    void comandToServer(QString str);
 
 private:
     QString *path;
@@ -27,9 +31,14 @@ private:
     QStringList *DirsList;
 
     void getAllSubDirectories(QString dir);
+    void removeWatchersAndDirsRecursive(QString dir);
+    void addWatchersAndDirsRecursive(QString dir);
     void getAllFiles();
     void DirsAddWatch();
     void FilesAddWatch();
+    void removeDirFromList(QString fullPath);
+    void addDirToList(QString fullPath);
+    void refactorAllWatchers();
 };
 
 #endif // LISTENER_H

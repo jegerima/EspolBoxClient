@@ -36,6 +36,7 @@ private:
     ClientSocket *cs;
     QThread *hilo;
     QDir *currentDir;
+    QString *ip;
 
     void SetBoxDirToServer();
 
